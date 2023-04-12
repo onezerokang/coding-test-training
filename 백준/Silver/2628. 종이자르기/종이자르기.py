@@ -1,21 +1,23 @@
-x, y = map(int, input().split())
-x_list = [0, x] #가로 각각 길이
-y_list = [0, y] #세로 각각 길이
-for _ in range(int(input())):
+w, h = map(int, input().split())
+n = int(input())
+
+row_list = [0, w]
+col_list = [0, h]
+
+for _ in range(n):
     xy, length = map(int, input().split())
     if xy == 0:
-        y_list.append(length)
+        col_list.append(length)
     else:
-        x_list.append(length)
-        
-x_list.sort() #좌, 위쪽부터 꺼내서 대조 하기 위함
-y_list.sort()
+        row_list.append(length)
 
-max_square = 0
-for i in range(1, len(x_list)):
-    for j in range(1, len(y_list)):
-        width = x_list[i] - x_list[i-1]
-        height = y_list[j] - y_list[j-1]
-        max_square = max(max_square, width * height) #가장 큰 범위
+row_list.sort()
+col_list.sort()
 
-print(max_square)
+result = 0
+for i in range(1, len(row_list)):
+    for j in range(1, len(col_list)):
+        w = row_list[i] - row_list[i-1]
+        h = col_list[j] - col_list[j-1]
+        result = max(result, w * h)
+print(result)
