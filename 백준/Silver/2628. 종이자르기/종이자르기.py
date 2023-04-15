@@ -1,23 +1,26 @@
 w, h = map(int, input().split())
 n = int(input())
 
-row_list = [0, w]
-col_list = [0, h]
+col = [0, w]
+row = [0, h]
 
 for _ in range(n):
-    xy, length = map(int, input().split())
+    xy, cut = map(int, input().split())
+    
     if xy == 0:
-        col_list.append(length)
+        row.append(cut)
     else:
-        row_list.append(length)
+        col.append(cut)
 
-row_list.sort()
-col_list.sort()
+row.sort()
+col.sort()
 
 result = 0
-for i in range(1, len(row_list)):
-    for j in range(1, len(col_list)):
-        w = row_list[i] - row_list[i-1]
-        h = col_list[j] - col_list[j-1]
-        result = max(result, w * h)
+for i in range(len(row) - 1):
+    for j in range(len(col) - 1):
+        a = row[i+1] - row[i]
+        b = col[j+1] - col[j]
+        if a * b > result:
+            result = a * b
+
 print(result)
