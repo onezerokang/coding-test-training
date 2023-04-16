@@ -1,19 +1,17 @@
 n = int(input())
-nums = map(int, input().split())
+nums = list(map(int, input().split()))
 
-def check_prime(num):
-    if num == 1:
+def is_prime(x):
+    if x < 2:
         return False
-
-    for i in range(2, num):
-        if num % i == 0:
+    for i in range(2, int(x ** 0.5) + 1):
+        if x % i == 0:
             return False
     return True
-
-result = 0
+        
+cnt = 0
 for num in nums:
-    is_prime = check_prime(num)
-    if is_prime:
-        result += 1
-
-print(result)
+    if is_prime(num):
+        cnt += 1
+        
+print(cnt)
