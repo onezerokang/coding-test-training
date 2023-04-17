@@ -2,19 +2,18 @@ import sys
 input = sys.stdin.readline
 
 n, k = map(int, input().split())
-num = input()
+nums = input().rstrip()
 
 stack = []
 cnt = 0
-for i in range(n):
-    while stack and stack[-1] < num[i] and cnt < k:
+
+for num in nums:
+    num = int(num)
+    while stack and num > stack[-1] and k > cnt:
         stack.pop()
         cnt += 1
+    stack.append(num)
+
+for i in range(n - k):
+    print(stack[i], end="")
     
-    stack.append(num[i])
-
-while len(stack) > n - k:
-    stack.pop()
-
-for x in stack:
-    print(x, end="")
