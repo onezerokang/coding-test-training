@@ -1,27 +1,27 @@
 import sys
 input = sys.stdin.readline
 n, c = map(int, input().split())
-h = [int(input()) for _ in range(n)]
-h.sort()
+houses = [int(input()) for _ in range(n)]
+houses.sort()
 
-start = 1 # 최소 거리
-end = h[-1] - h[0] # 최대 거리
+pl = 1
+pr = houses[-1] - houses[0]
 result = 0
 
-while start <= end:
-    mid = (start + end) // 2
-    curr = h[0] # 첫번째 집에 공유기 설치
+while pl <= pr:
+    pc = (pl + pr) // 2
+    recent = houses[0]
     cnt = 1
     
     for i in range(1, n):
-        if h[i] - curr >= mid:
+        if houses[i] - recent >= pc:
+            recent = houses[i]
             cnt += 1
-            curr = h[i]
-            
     if cnt >= c:
-        result = mid
-        start = mid + 1
+        if pc > result:
+            result = pc
+        pl = pc + 1
     else:
-        end = mid - 1
+        pr = pc - 1
 
 print(result)
