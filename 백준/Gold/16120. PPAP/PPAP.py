@@ -1,24 +1,19 @@
 import sys
+string = sys.stdin.readline().rstrip()
 
-string = sys.stdin.readline().strip()
+ppap = ["P", "P", "A", "P"]
 stack = []
-ppap =['P','P','A','P']
 
-for i in range(0,len(string)) :
-
+for i in range(len(string)):
     stack.append(string[i])
-    if len(stack) >= 4 :
-        if stack[-4:] == ppap : 
-            for j in range(0,4) :
-                stack.pop()
-            if i == len(string) -1 :
-                break
-            else :
-                stack.append("P")
 
-if stack == ppap or len(stack) == 0:
+    if len(stack) >= 4:
+        if ppap == stack[-4:]:
+            for _ in range(4):
+                stack.pop()
+            stack.append('P')
+
+if len(stack) == 1 and stack[0] == 'P':
     print("PPAP")
-elif len(stack) == 1 and stack[0] == "P" :
-    print("PPAP")
-else :
+else:
     print("NP")
