@@ -18,12 +18,14 @@ def bfs():
             ny = y + dy[i]
 
             if 0 <= nx < N and 0 <= ny < N and graph[nx][ny] == 0:
-                queue.append([_type, nx, ny, time + 1])
+                queue.append((_type, nx, ny, time + 1))
                 graph[nx][ny] = _type
 
 N, K = map(int, input().split())
+
 virus = []
 graph = []
+
 for x in range(N):
     row = list(map(int, input().split()))
     graph.append(row)
@@ -33,7 +35,9 @@ for x in range(N):
             virus.append([row[y], x, y, 0])
 
 virus.sort()
+
 S, X, Y = map(int, input().split())
+
 dx, dy = [-1, 1, 0, 0], [0, 0, -1, 1]
 
 bfs()
