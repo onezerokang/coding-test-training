@@ -1,14 +1,16 @@
 import sys;
 input = sys.stdin.readline
 
-def dfs(n):
-    if n < 0:
-        return 0
-    if n == 1 or n == 0:
-        return 1
-    return dfs(n - 1) + dfs(n - 2) + dfs(n - 3)
+dp = [0] * 12
+dp[1] = 1
+dp[2] = 2
+dp[3] = 4
 
 T = int(input())
-for i in range(T):
+for _ in range(T):
     n = int(input())
-    print(dfs(n))
+
+    for i in range(4, n + 1):
+        dp[i] = dp[i - 1] + dp[i - 2] + dp[i - 3]
+
+    print(dp[n])
