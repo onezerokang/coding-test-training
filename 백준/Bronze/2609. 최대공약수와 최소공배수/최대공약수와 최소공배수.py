@@ -7,15 +7,10 @@ def gcd(a, b):
         return a
     return gcd(b, a % b)
 
-def lcm(a, b, m_cnt1, m_cnt2):
-    if (a * m_cnt1) == (b * m_cnt2):
-        return a * m_cnt1
-    if (a * m_cnt1) > (b * m_cnt2):
-        return lcm(a, b, m_cnt1, m_cnt2 + 1)
-    else:
-        return lcm(a, b, m_cnt1 + 1, m_cnt2)
+def lcm(a, b):
+    return a * b // gcd(a, b)
 
 a, b = map(int, input().split())
 
 print(gcd(a, b))
-print(lcm(a, b, 1, 1))
+print(lcm(a, b))
