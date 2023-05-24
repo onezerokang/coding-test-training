@@ -1,9 +1,14 @@
-n = int(input())
-people = list(map(int, input().split()))
-people.sort(reverse=True)
+import sys
+input = sys.stdin.readline
 
-result = 0
-for i in range(len(people)):
-    result += people[i] + sum(people[i + 1:])
+N = int(input())
+times = list(map(int, input().split()))
+times.sort()
 
-print(result)
+ans = [0] * N
+ans[0] = times[0]
+
+for i in range(1, N):
+    ans[i] = ans[i - 1] + times[i]
+
+print(sum(ans))
