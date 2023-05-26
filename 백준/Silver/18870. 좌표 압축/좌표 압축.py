@@ -1,12 +1,11 @@
-import sys
-input = sys.stdin.readline
-
-N = int(input())
-coord = list(map(int, input().split()))
-
-coord2 = {}
-for i, x in enumerate(sorted(list(set(coord)))):
-    coord2[x] = i
-
-for x in coord:
-    print(coord2[x], end=" ")
+from sys import stdin
+N = int(stdin.readline().strip())
+X = list(map(int, stdin.readline().strip().split()))
+cpy  = list(set(X))
+cpy.sort()
+ans,cnt={},0
+for i in cpy:
+    ans[i] = cnt
+    cnt+=1
+for idx in X:
+    print(ans[idx],end=" ")
