@@ -2,11 +2,7 @@ import sys
 from collections import deque
 input = sys.stdin.readline
 
-n, m = map(int, input().split())
-graph = [list(map(int, input().split())) for _ in range(n)]
-visited = [[False] * m for _ in range(n)]
-
-def get_starting_point():
+def get_starting_coord():
     for i in range(n):
         for j in range(m):
             if graph[i][j] == 2:
@@ -31,12 +27,18 @@ def bfs(x, y):
                 graph[nx][ny] = graph[x][y] + 1
                 visited[nx][ny] = True
 
-x, y = get_starting_point()
-bfs(x, y)
+def print_result():
+    for i in range(n):
+        for j in range(m):
+            if graph[i][j] == 1 and not visited[i][j]:
+                graph[i][j] = -1
+            print(graph[i][j], end=" ")
+        print("")
 
-for i in range(n):
-    for j in range(m):
-        if graph[i][j] == 1 and not visited[i][j]:
-            graph[i][j] = -1
-        print(graph[i][j], end=" ")
-    print("")
+n, m = map(int, input().split())
+graph = [list(map(int, input().split())) for _ in range(n)]
+visited = [[False] * m for _ in range(n)]
+
+x, y = get_starting_coord()
+bfs(x, y)
+print_result()
