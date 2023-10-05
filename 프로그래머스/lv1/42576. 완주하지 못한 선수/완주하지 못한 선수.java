@@ -3,26 +3,25 @@ import java.util.*;
 class Solution {
     public String solution(String[] participant, String[] completion) {
         
+        String answer = "";
         Map<String, Integer> map = new HashMap<>();
         
         for (String p: participant) {
-            if (map.get(p) != null) {
-                map.put(p, map.get(p) + 1);
-            } else {
-                map.put(p, 1);
-            }
+            map.put(p, map.getOrDefault(p, 0) + 1);
         };
                 
         for (String c: completion) {
             map.put(c, map.get(c) - 1);
         };
         
+        // 들여 쓰기를 줄일 수는 없을까?
         for (String key: map.keySet()) {
             if (map.get(key) == 1) {
-                return key;
+                answer = key;
+                break;
             }
         }
         
-        return "";
+        return answer;
     }
 }
