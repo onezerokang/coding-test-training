@@ -3,7 +3,7 @@ import java.util.*;
 class Solution {
     boolean solution(String s) {
         
-        Stack<Character> stack = new Stack<>();
+        Deque<Character> stack = new ArrayDeque<>();
         
         for (char c: s.toCharArray()) {
             if (c == '(') {
