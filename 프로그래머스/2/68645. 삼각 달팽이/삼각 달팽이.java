@@ -1,77 +1,40 @@
-import java.util.*;
-
 class Solution {
-    public int[] solution(int n) {
-        int[][] triangle = getTriangle(n);
+    private static final int[] dx = {0, 1, -1};
+    private static final int[] dy = {1, 0, -1};
+    
+    public int[] solution(int n) {      
         
+        int[][] triangle = new int[n][n];
+        int v = 1;
         int x = 0;
         int y = 0;
-        int value = 1;
-        boolean up = false;
+        int d = 0;
         
-        while(true) {
-            triangle[y][x] = value;
-            value += 1;
+        while (true) {
+            triangle[y][x] = v++;
+            int nx = x + dx[d];
+            int ny = y + dy[d];
             
-            if (n == 1) {
-                break;
+            if (nx == n || ny == n || nx == -1 || ny == -1 || triangle[ny][nx] != 0) {
+                d = (d + 1) % 3;
+                nx = x + dx[d];
+                ny = y + dy[d];
+                
+                if (nx == n || ny == n || nx == -1 || ny == -1 || triangle[ny][nx] != 0) break;
             }
-                        
-            if (!up && triangle.length > y + 1 && triangle[y+1][x] == 0) {
-                // 값을 채우고, 내 밑에 뭐가 있다면 내려가서 채운댜.
-                y += 1;
-                continue;
-            }
-            
-            if (!up && triangle[y].length > x + 1 && triangle[y][x+1] == 0) {
-                // 값을 채우고, 내 밑에 뭐가 없다면 오른쪽으로 간다.
-                x += 1;
-                continue;
-            }
-            
-            if (triangle[y - 1][x - 1] == 0) {
-                // 값을 채우고, 내 밑과 오른쪽에 뭐가 없다면 위로 간다.
-                y -= 1;
-                x -= 1;
-                up = true;
-                continue;
-            }
-            
-            if (triangle.length > y + 1 && triangle[y+1][x] == 0) {
-                // 값을 채우고, 내 밑에 뭐가 있다면 내려가서 채운댜.
-                y += 1;
-                up = false;
-                continue;
-            }
-            
-            break;
+            x = nx;
+            y = ny;
         }
         
-        List<Integer> list = new ArrayList<>();
+        int[] result = new int[v - 1];
         
-        for (int[] row: triangle) {
-            for (int num: row) {
-                list.add(num);
+        int index = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                result[index++] = triangle[i][j];
             }
-        }
-        
-        int[] result = new int[list.size()];
-        for (int i = 0; i < list.size(); i++) {
-            result[i] = list.get(i);
         }
         
         return result;
     }
-    
-    private int[][] getTriangle(int height) {
-        int[][] triangle = new int[height][];
-        
-        for (int i = 0; i < height; i++) {
-            triangle[i] = new int[i + 1];
-        }
-        
-        return triangle;
-        
-    }
 }
-
