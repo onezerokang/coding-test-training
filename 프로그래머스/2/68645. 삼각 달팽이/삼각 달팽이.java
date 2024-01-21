@@ -1,5 +1,3 @@
-import java.util.*;
-
 class Solution {
     private static final int[] dx = {0, 1, -1};
     private static final int[] dy = {1, 0, -1};
@@ -12,32 +10,35 @@ class Solution {
         int d = 0;
         
         while (true) {
-            triangle[y][x] = v++;
+            triangle[y][x] = v;
+            
             int nx = x + dx[d];
             int ny = y + dy[d];
             
-            if (nx == n || ny == n || nx == -1 || ny == -1 || triangle[ny][nx] != 0) {
+            if (nx == -1 || nx >= n || ny == -1 || ny >= n || triangle[ny][nx] != 0) {
                 d = (d + 1) % 3;
                 nx = x + dx[d];
                 ny = y + dy[d];
-                if (nx == n || ny == n || nx == -1 || ny == -1 || triangle[ny][nx] != 0) {
+                if (nx == -1 || nx >= n || ny == -1 || ny >= n || triangle[ny][nx] != 0) {
                     break;
                 }
             }
+            
             x = nx;
             y = ny;
+            v++;
         }
-        
-        int[] result = new int[v - 1];
+    
+        int[] result = new int[v];
         int index = 0;
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j <= i; j++) {
-                result[index++] = triangle[i][j];
+            for (int j = 0; j < n; j++) {
+                if (triangle[i][j] != 0) {
+                    result[index++] = triangle[i][j];    
+                }
             }
         }
         
         return result;
     }
 }
-
-// 아래 방향
