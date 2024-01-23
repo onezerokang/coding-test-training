@@ -1,18 +1,14 @@
-import java.util.*;
-
 class Solution {
     public int[] solution(long n) {
-        String strN = Long.toString(n);
+        StringBuilder builder = new StringBuilder(Long.toString(n));
+        builder.reverse();
+        String str = builder.toString();
         
-        String reversed = new StringBuilder(strN).reverse().toString();
-        
-        char[] charArr = reversed.toCharArray();
-        
-        int[] result = new int[charArr.length];
-        for (int i = 0; i < charArr.length; i++) {
-            result[i] = Character.getNumericValue(charArr[i]);
+        int[] result = new int[str.length()];
+        for (int i = 0; i < str.length(); i++) {
+            result[i] = str.charAt(i) - '0';
         }
-        
+
         return result;
     }
 }
