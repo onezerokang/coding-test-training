@@ -22,8 +22,8 @@ class Solution {
     private int[] compareLines(int[] line1, int[] line2) {
         int[] result = new int[2];
         if (line1[1] > line2[0]) {
-            result[0] = line1[0] > line2[0] ? line1[0] : line2[0];
-            result[1] = line1[1] < line2[1] ? line1[1] : line2[1];
+            result[0] = Math.max(line1[0], line2[0]);
+            result[1] = Math.min(line1[1], line2[1]);
         }
         
         return result;
