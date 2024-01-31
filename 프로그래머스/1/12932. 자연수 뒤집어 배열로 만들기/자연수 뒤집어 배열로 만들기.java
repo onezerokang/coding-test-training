@@ -1,14 +1,12 @@
 class Solution {
     public int[] solution(long n) {
-        StringBuilder builder = new StringBuilder(Long.toString(n));
-        builder.reverse();
-        String str = builder.toString();
+        String reversedNum = new StringBuilder(Long.toString(n)).reverse().toString();
         
-        int[] result = new int[str.length()];
-        for (int i = 0; i < str.length(); i++) {
-            result[i] = str.charAt(i) - '0';
+        int[] result = new int[reversedNum.length()];
+        for (int i = 0; i < reversedNum.length(); i++) {
+            result[i] = reversedNum.charAt(i) - '0';
         }
-
+        
         return result;
     }
 }
