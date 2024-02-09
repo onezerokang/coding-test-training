@@ -1,64 +1,60 @@
 import java.util.*;
 
-class Solution {
-    public int[] solution(int[] answers) {
-        Supoja supoja1 = new Supoja(1, new int[]{1, 2, 3, 4, 5});
-        Supoja supoja2 = new Supoja(2, new int[]{2, 1, 2, 3, 2, 4, 2, 5});
-        Supoja supoja3 = new Supoja(3, new int[]{3, 3, 1, 1, 2, 2, 4, 4, 5, 5});
+class Solution {    
+    private static class Supo {
+        public int no;
+        public int count;
+        public final int[] pattern;
         
-        for(int answer: answers) {
-            supoja1.checkAnswer(answer);
-            supoja2.checkAnswer(answer);
-            supoja3.checkAnswer(answer);
+        public Supo(int no, int[] pattern) {
+            this.no = no;
+            this.pattern = pattern;
         }
         
-        List<Integer> ranking = Supoja.getRanking(List.of(supoja1, supoja2, supoja3));
+        public void check(int answer, int index) {
+            if (this.pattern[index % pattern.length] == answer) count++;
+        }
         
-        return ranking.stream().mapToInt(i -> i).toArray();
+        public static int[] getHighSupo(Supo[] supos) {
+            int highScore = Integer.MIN_VALUE;
+            List<Integer> list = new ArrayList<>();
+            
+            for (Supo supo: supos) {
+                if (highScore < supo.count) {
+                    highScore = supo.count;
+                    list.clear();
+                    list.add(supo.no);
+                    continue;
+                }
+                if (highScore == supo.count) {
+                    list.add(supo.no);
+                }
+            }
+            
+            int[] result = new int[list.size()];
+            int index = 0;
+            for (int supoNo: list) {
+                result[index++] = supoNo;
+            }
+            
+            return result;
+        }
+        
     }
     
-    private static class Supoja {        
-        private int id;
-        private int[] pattern;
-        private int patternLength;
-        public int correctCount = 0;
-        public int currIndex = 0;
+    public int[] solution(int[] answers) {
+        Supo supo1 = new Supo(1, new int[]{1, 2, 3, 4, 5});
+        Supo supo2 = new Supo(2, new int[]{2, 1, 2, 3, 2, 4, 2, 5});
+        Supo supo3 = new Supo(3, new int[]{3, 3, 1, 1, 2, 2, 4, 4, 5, 5});
         
-        public Supoja(int id, int[] pattern) {
-            this.id = id;
-            this.pattern = pattern;
-            this.patternLength = pattern.length;
+        int index = 0;
+        for (int answer: answers) {
+            supo1.check(answer, index);
+            supo2.check(answer, index);
+            supo3.check(answer, index);
+            index++;
         }
         
-        public void checkAnswer(int answer) {
-            if (pattern[currIndex] == answer) {
-                correctCount++;
-            }
-            
-            currIndex++;
-            
-            if (currIndex >= patternLength) {
-                currIndex = 0;
-            }
-        }
-        
-        public static List<Integer> getRanking(List<Supoja> supojas) {
-            int bestScore = 0;
-            LinkedList<Integer> ranking = new LinkedList<>();
-            
-            for (Supoja supoja: supojas) {
-                if (bestScore == supoja.correctCount) {
-                    ranking.add(supoja.id);
-                }
-
-                if (bestScore < supoja.correctCount) {
-                    ranking.clear();
-                    ranking.add(supoja.id);
-                    bestScore = supoja.correctCount;
-                }
-            }
-            
-            return ranking;
-        }
+        return Supo.getHighSupo(new Supo[]{supo1, supo2, supo3});
     }
 }
