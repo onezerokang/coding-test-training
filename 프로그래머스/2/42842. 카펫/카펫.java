@@ -8,35 +8,37 @@ class Solution {
     //    - (가로길이-2) * (세로길이-2) == 노랑개수 그게 정답.
     public int[] solution(int brown, int yellow) {
         int[] answer = new int[2];
-        
-        List<List<Integer>> combinations = getWidthHeightCombination(brown + yellow);
-        combinations.forEach(widthHeight -> {
-            int width = widthHeight.get(0);
-            int height = widthHeight.get(1);
-            
-            if ((width - 2) * (height - 2) == yellow) {
-                answer[0] = width;
-                answer[1] = height;
+
+        List<Carpet> carpets = getCarpets(brown + yellow);
+        carpets.forEach(carpet -> {
+            if ((carpet.width - 2) * (carpet.height - 2) == yellow) {
+                answer[0] = carpet.width;
+                answer[1] = carpet.height;
             }
         });
-        
-        
+
         return answer;
     }
-    
-    List<List<Integer>> getWidthHeightCombination(int totalCount) {
+
+    List<Carpet> getCarpets(int totalCount) {
         Integer height = 3;
-        
-        List<List<Integer>> result = new ArrayList<>();
+        List<Carpet> result = new ArrayList<>();
         do {
             if (totalCount % height == 0) {
-                List<Integer> widthHeight = new ArrayList<>();
-                widthHeight.add(totalCount/ height);
-                widthHeight.add(height);
-                result.add(widthHeight);
+                result.add(new Carpet(totalCount / height, height));
             }
             height++;
         } while (totalCount / height >= height);
         return result;
+    }
+
+    class Carpet {
+        int width;
+        int height;
+
+        public Carpet(int width, int height) {
+            this.width = width;
+            this.height = height;
+        }
     }
 }
