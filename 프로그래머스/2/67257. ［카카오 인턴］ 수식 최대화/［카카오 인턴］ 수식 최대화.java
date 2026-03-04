@@ -1,58 +1,129 @@
 import java.util.*;
 
-class Solution {   
-    private static final String[][] precedences = {
-        "+-*".split(""),
-        "+*-".split(""),
-        "-+*".split(""),
-        "-*+".split(""),
-        "*+-".split(""),
-        "*-+".split(""),
-    };
+class Solution {    
+    // 숫자와 연산자를 분리해서 리스트에 담는다.
+    // 연산자 우선순위 조합을 구한다.
+    // 연산자 우선순위를 순회하면서 합을 구한다.
+    // 가장 높은합을 반환한다.
+    private static final List<String> operators = List.of("+", "-", "*");
     
-    private long calculate(long lhs, long rhs, String op) {
-        return switch (op) {
-                case "+" -> lhs + rhs;
-                case "-" -> lhs - rhs;
-                case "*" -> lhs * rhs;
-                default -> 0;
-        };
-    }
-    
-    private long calculate(List<String> tokens, String[] precedence) {
-        for (String op: precedence) {
-            for (int i = 0; i < tokens.size(); i++) {
-                if (tokens.get(i).equals(op)) {
-                    long lhs = Long.parseLong(tokens.get(i - 1));
-                    long rhs = Long.parseLong(tokens.get(i + 1));
-                    long result = calculate(lhs, rhs, op);
-                    tokens.remove(i - 1);
-                    tokens.remove(i - 1);
-                    tokens.remove(i - 1);
-                    tokens.add(i - 1, String.valueOf(result));
-                    i -= 2;    
-                }
-            }
-        }
-        
-        return Long.parseLong(tokens.get(0));
-    }
+    private static final List<List<String>> operatorCombination = List.of(
+        List.of("*", "+", "-"),
+        List.of("*", "-", "+"),
+        List.of("+", "*", "-"),
+        List.of("+", "-", "*"),
+        List.of("-", "+", "*"),
+        List.of("-", "*", "+")
+    );
     
     public long solution(String expression) {
-        StringTokenizer tokenizer = new StringTokenizer(expression, "+-*", true);
-        List<String> tokens = new ArrayList<>();
-        while (tokenizer.hasMoreTokens()) {
-            tokens.add(tokenizer.nextToken());
+        long answer = 0L;
+        for (List<String> operators : operatorCombination) {
+            Calculator calculator = new Calculator(expression);
+            for (String operator : operators) {
+                if (operator.equals("+")) {
+                    calculator.plus();
+                } else if (operator.equals("-")) {
+                    calculator.minus();
+                } else if (operator.equals("*")) {
+                    calculator.multiply();
+                }
+            }   
+            answer = Math.max(answer, calculator.getResult());
         }
         
-        long max = 0;
-        for (String[] precedence : precedences) {
-            long value = Math.abs(calculate(new ArrayList<>(tokens), precedence));
-            if (value > max) {
-                max = value;
+        return answer;
+    }
+    
+    private static class Calculator {
+        private List<String> expression = new ArrayList<>();
+        private List<String> result = new ArrayList<>();
+        
+        public Calculator(String expression) {
+            int operatorIndex = -1;
+            for (int i = 0; i < expression.length(); i++) {
+                if (isOperator(expression.charAt(i))) {
+                    this.expression.add(expression.substring(operatorIndex + 1, i));
+                    this.expression.add(String.valueOf(expression.charAt(i)));
+                    operatorIndex = i;
+                }
             }
+            this.expression.add(
+                expression.substring(operatorIndex + 1, expression.length())
+            );
         }
         
-        return max;
+        private void plus() {
+            int index = 0;
+            while (true) {
+                if (expression.get(index).equals("+")) {
+                    long tmp = Long.valueOf(result.get(result.size() - 1))
+                        + Long.valueOf(expression.get(index + 1));
+                    result.remove(result.size() - 1);
+                    result.add(String.valueOf(tmp));
+                    index++;
+                } else {
+                    result.add(expression.get(index));
+                }
+                if (++index >= expression.size()) {
+                    break;
+                }
+            }
+            this.expression.clear();
+            this.expression.addAll(this.result);
+            this.result.clear();
+        }
+        
+        private void minus() {
+            int index = 0;
+            while (true) {
+                if (expression.get(index).equals("-")) {
+                    long tmp = Long.valueOf(result.get(result.size() - 1))
+                        - Long.valueOf(expression.get(index + 1));
+                    System.out.println(tmp);
+                    result.remove(result.size() - 1);
+                    result.add(String.valueOf(tmp));
+                    index++;
+                } else {
+                    result.add(expression.get(index));
+                }
+                if (++index >= expression.size()) {
+                    break;
+                }
+            }
+            this.expression.clear();
+            this.expression.addAll(this.result);
+            this.result.clear();
+        }
+        
+        private void multiply() {
+            int index = 0;
+            while (true) {
+                if (expression.get(index).equals("*")) {
+                    long tmp = Long.valueOf(result.get(result.size() - 1))
+                        * Long.valueOf(expression.get(index + 1));
+                    result.remove(result.size() - 1);
+                    result.add(String.valueOf(tmp));
+                    index++;
+                } else {
+                    result.add(expression.get(index));
+                }
+                if (++index >= expression.size()) {
+                    break;
+                }
+            }
+            this.expression.clear();
+            this.expression.addAll(this.result);
+            this.result.clear();
+        }
+        
+        public long getResult() {
+            return Math.abs(Long.valueOf(expression.get(0)));
+        }
+        
+        
+        private boolean isOperator(Character value) {
+            return operators.contains(String.valueOf(value));
+        }
     }
 }
