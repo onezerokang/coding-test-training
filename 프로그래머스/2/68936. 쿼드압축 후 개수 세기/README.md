@@ -1,10 +1,10 @@
 # [level 2] 쿼드압축 후 개수 세기 - 68936 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/68936) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/68936?language=kotlin) 
 
 ### 성능 요약
 
-메모리: 109 MB, 시간: 14.79 ms
+메모리: 102 MB, 시간: 47.43 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2024년 2월 5일 15:36:36
+2026년 03월 17일 20:34:42
 
 ### 문제 설명
 
